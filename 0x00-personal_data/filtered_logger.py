@@ -2,9 +2,11 @@
 """ a module that contain a filter for logger """
 
 import re
+from typing import List
 
 
-def filter_datum(fields, redaction, message, separator):
+def filter_datum(fields: List, redaction: str,
+                 message: str, separator: str) -> str:
     """ a filter to obfuscate the important data """
     pattern = '|'.join([f'{field}=[^{separator}]+' for field in fields])
     return re.sub(pattern,
