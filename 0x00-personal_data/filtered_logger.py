@@ -5,10 +5,10 @@ import re
 from typing import List
 
 
-def filter_datum(fields: List, redaction: str,
+def filter_datum(fields: Lis[str], redaction: str,
                  message: str, separator: str) -> str:
     """ a filter to obfuscate the important data """
-    pattern = '|'.join([f'{field}=[^{separator}]+' for field in fields])
-    return re.sub(pattern,
-                  lambda match: f'{match.group(0).split("=")[0]}={redaction}',
-                  message)
+    for key in fields:
+        message = re.sub(rf"{key}=.+?{separator}",
+                         f"{key}={redaction}{separator}", message)
+    return message
