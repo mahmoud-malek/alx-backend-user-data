@@ -8,4 +8,5 @@ def filter_datum(fields, redaction, message, separator):
     """ a filter to obfuscate the important data """
     pattern = '|'.join([f'{field}=[^{separator}]+' for field in fields])
     return re.sub(pattern,
-                  lambda match: f'{match.group(0).split("=")[0]}={redaction}', message)
+                  lambda match: f'{match.group(0).split("=")[0]}={redaction}',
+                  message)
