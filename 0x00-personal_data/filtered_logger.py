@@ -13,7 +13,7 @@ PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
-                                    """
+                                                                    """
 
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
@@ -52,10 +52,10 @@ def get_logger() -> logging.Logger:
 
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
-    """ a function that return a connection to the database """
+    """ a function that returns a connection to the database """
     return mysql.connector.connect(
-        host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
-        database=os.getenv('PERSONAL_DATA_DB_NAME', 'root'),
-        user=os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
-        password=os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+        host=os.getenv("PERSONAL_DATA_DB_HOST", "localhost"),
+        database=os.getenv("PERSONAL_DATA_DB_NAME", ""),
+        user=os.getenv("PERSONAL_DATA_DB_USERNAME", "root"),
+        password=os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
     )
