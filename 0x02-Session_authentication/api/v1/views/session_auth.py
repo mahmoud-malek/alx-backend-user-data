@@ -4,13 +4,15 @@
 
 from flask import abort, jsonify, request
 from api.v1.views import app_views
+from models.user import User
+from os import getenv
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def auth_session_login() -> str:
     """ POST /api/v1/auth_session/login
-            Return:
-                    - User object JSON represented
+                    Return:
+                                    - User object JSON represented
     """
     email = request.form.get('email')
     password = request.form.get('password')
@@ -33,8 +35,8 @@ def auth_session_login() -> str:
                  methods=['DELETE'], strict_slashes=False)
 def auth_session_logout() -> str:
     """ DELETE /api/v1/auth_session/logout
-            Return:
-                    - empty JSON
+                    Return:
+                                    - empty JSON
     """
     from api.v1.app import auth
     if auth.destroy_session(request):
