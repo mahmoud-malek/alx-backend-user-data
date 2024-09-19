@@ -20,6 +20,9 @@ if AUTH_TYPE == "auth":
 elif AUTH_TYPE == "basic_auth":
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
+elif AUTH_TYPE == "session_auth":
+    from api.v1.auth.session_auth import SessionAuth
+    auth = SessionAuth()
 
 
 @app.before_request
@@ -29,9 +32,9 @@ def before_request():
     if auth is None:
         return
     if auth.require_auth(
-        request.path,
-            ['/api/v1/status/', '/api/v1/unauthorized/',
-             '/api/v1/forbidden/']):
+            request.path,
+        ['/api/v1/status/', '/api/v1/unauthorized/',
+         '/api/v1/forbidden/']):
         if not auth.authorization_header(request):
             abort(401)
 
