@@ -5,6 +5,7 @@
 from flask import request
 from typing import List, TypeVar
 import fnmatch
+import os
 
 
 class Auth:
@@ -12,7 +13,7 @@ class Auth:
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ require_auth
-                """
+                        """
         if not path or not excluded_paths:
             return True
         # Ensure path does not end with a trailing slash unless needed
@@ -34,12 +35,19 @@ class Auth:
 
     def authorization_header(self, request=None) -> str:
         """ authorization_header
-                """
+                        """
         if request is None or 'Authorization' not in request.headers:
             return None
         return request.headers['Authorization']
 
     def current_user(self, request=None) -> TypeVar('User'):
         """ current_user
-                """
+                        """
         return None
+
+    def session_cookie(self, request=None):
+        """ session_cookie
+                        """
+        if request is None:
+            return None
+        return request.cookies.get(os.getenv('SESSION_NAME'))
