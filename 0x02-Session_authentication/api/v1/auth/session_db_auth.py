@@ -18,9 +18,8 @@ class SessionDBAuth(SessionExpAuth):
         """
         Create session id from random string
         """
-
-
-if user_id is None or not isinstance(user_id,         if user_id is None or )            return None
+        if user_id is None or type(user_id) is str:
+            return None
         session_id = super().create_session(user_id)
         if session_id:
             kwargs = {'user_id': user_id, 'session_id': session_id}
