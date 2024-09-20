@@ -23,6 +23,9 @@ elif AUTH_TYPE == "basic_auth":
 elif AUTH_TYPE == "session_auth":
     from api.v1.auth.session_auth import SessionAuth
     auth = SessionAuth()
+elif AUTH_TYPE == "session_exp_auth":
+    from api.v1.auth.session_exp_auth import SessionExpAuth
+    auth = SessionExpAuth()
 
 
 @app.before_request
@@ -32,8 +35,8 @@ def before_request():
     if auth is None:
         return
     if auth.require_auth(request.path, [
-            '/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/',
-            '/api/v1/auth_session/login/'
+        '/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/',
+        '/api/v1/auth_session/login/'
     ]):
         if not auth.authorization_header(request) and \
                 not auth.session_cookie(request):
