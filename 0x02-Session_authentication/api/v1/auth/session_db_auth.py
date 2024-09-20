@@ -26,7 +26,10 @@ class SessionDBAuth(SessionAuth):
             return None
 
         from models.user_session import UserSession
-        user_session = UserSession.search({'session_id': session_id})
+        try:
+            user_session = UserSession.search({'session_id': session_id})
+        except Exception:
+            return None
 
         if not user_session:
             return None
