@@ -17,11 +17,11 @@ from typing import TypeVar, Union
 
 class DB:
     """DB class
-                                                                    """
+      """
 
     def __init__(self) -> None:
         """Initialize a new DB instance
-                                                                                                                                        """
+     """
         self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
@@ -30,7 +30,7 @@ class DB:
     @property
     def _session(self) -> Session:
         """Memoized session object
-                                                                                                                                        """
+          """
         if self.__session is None:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
@@ -40,7 +40,7 @@ class DB:
                  hashed_password: str) -> (
             Union[User, InvalidRequestError, NoResultFound]):
         """Adds a new user to the data base
-                                                                                                                                        """
+               """
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
@@ -48,7 +48,7 @@ class DB:
 
     def find_user_by(self, **kwargs) -> TypeVar('User'):
         """ Finds a user by a given attribute
-                                                                                                                                        """
+         """
         for key in kwargs:
             if not hasattr(User, key):
                 raise InvalidRequestError
