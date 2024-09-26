@@ -12,7 +12,7 @@ class User(Base):
     """ class user defines the functionality of the user """
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(250), nullable=False)
     hashed_password = Column(String(250), nullable=False)
     session_id = Column(String(250), nullable=True)
