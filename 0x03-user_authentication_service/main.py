@@ -86,10 +86,9 @@ def reset_password_token(email: str) -> str:
     res = requests.post(url, data={"email": email})
     assert res.status_code == 200
     reset_token = res.json().get("reset_token")
-
-
-assert isinstance(reset_token,     assert )    assert len(reset_token) > 0
-return reset_token
+    assert isinstance(reset_token, str)
+    assert len(reset_token) > 0
+    return reset_token
 
 
 def update_password(email: str, reset_token: str, new_password: str) -> None:
