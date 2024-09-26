@@ -12,16 +12,16 @@ from sqlalchemy.exc import InvalidRequestError
 
 from user import Base, User
 
-from typing import TypeVar
+from typing import TypeVar, Union
 
 
 class DB:
     """DB class
-        """
+            """
 
     def __init__(self) -> None:
         """Initialize a new DB instance
-                """
+                        """
         self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
@@ -30,15 +30,16 @@ class DB:
     @property
     def _session(self) -> Session:
         """Memoized session object
-                """
+                        """
         if self.__session is None:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> User:
+    def add_user(self, email: str,
+                 hashed_password: str) -> Union[User, InvalidRequestError, NoResultFound]:
         """Adds a new user to the data base
-                """
+                        """
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
@@ -46,12 +47,10 @@ class DB:
 
     def find_user_by(self, **kwargs) -> TypeVar('User'):
         """ Finds a user by a given attribute
-                """
+                        """
         if not kwargs:
             raise InvalidRequestError
-        try:
-            user = self._session.query(User).filter_by(**kwargs).one()
-        except NoResultFound:
-            raise NoResultFound
+
+        user = self._session.query(User).filter_by(**kwargs).one()
 
         return user
