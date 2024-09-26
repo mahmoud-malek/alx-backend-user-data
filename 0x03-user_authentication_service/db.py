@@ -37,7 +37,8 @@ class DB:
         return self.__session
 
     def add_user(self, email: str,
-                 hashed_password: str) -> Union[User, InvalidRequestError, NoResultFound]:
+                 hashed_password: str) -> (
+            Union[User, InvalidRequestError, NoResultFound]):
         """Adds a new user to the data base
                         """
         user = User(email=email, hashed_password=hashed_password)
