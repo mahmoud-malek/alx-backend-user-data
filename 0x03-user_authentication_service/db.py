@@ -21,7 +21,7 @@ class DB:
 
     def __init__(self) -> None:
         """Initialize a new DB instance
-     """
+ """
         self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
@@ -36,11 +36,11 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str,
-                 hashed_password: str) -> (
-            Union[User, InvalidRequestError, NoResultFound]):
+    def add_user(
+            self, email: str, hashed_password: str
+    ) -> (Union[User, InvalidRequestError, NoResultFound]):
         """Adds a new user to the data base
-               """
+                   """
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
@@ -56,3 +56,16 @@ class DB:
         if user is None:
             raise NoResultFound
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """Updates an existing user
+        """
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if hasattr(user, key):
+                setattr(user, key, value)
+            else:
+                raise ValueError
+        self.__session.add(user)
+        self._session.commit()
+        return None
