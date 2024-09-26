@@ -8,7 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.orm.exc import InvalidRequestError
+from sqlalchemy.exc import InvalidRequestError
 
 from user import Base, User
 
@@ -46,9 +46,9 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs) -> TypeVar('User'):
-        """ Finds a user by a given attribute
-         """
+    def find_user_by(self, **kwargs) -> User:
+        """Find a user with given attributes
+        """
         for key in kwargs:
             if not hasattr(User, key):
                 raise InvalidRequestError
